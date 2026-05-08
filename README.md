@@ -57,6 +57,8 @@ python -m mcp_delegation_lab.server
 - `check_transfer_eligibility` -> `examples/check_transfer_eligibility.json`
 - `initiate_transfer` -> `examples/initiate_transfer.json`
 
+CLI transcript (simulated): `examples/cli_transcript.md`
+
 ## Design notes
 
 - Scope validation runs before any transfer commit.
