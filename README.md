@@ -43,6 +43,39 @@ Run tests:
 pytest
 ```
 
+## Demo (quick)
+
+1. Start the server:
+
+```bash
+python -m mcp_delegation_lab.server
+```
+
+2. In MCP Inspector, call the tools using the example payloads:
+
+- `get_delegation_scope` -> `examples/get_delegation_scope.json`
+- `check_transfer_eligibility` -> `examples/check_transfer_eligibility.json`
+- `initiate_transfer` -> `examples/initiate_transfer.json`
+
+## Design notes
+
+- Scope validation runs before any transfer commit.
+- `initiate_transfer` always executes a pre-flight policy check.
+- Policy failures return `ok: true` with `eligible: false` to avoid tool-level errors.
+- No credentials are stored or returned; all data is mocked in memory.
+
+## Schema snapshots
+
+- `examples/get_delegation_scope_schema.json`
+- `examples/check_transfer_eligibility_schema.json`
+- `examples/initiate_transfer_schema.json`
+
+## What is mocked
+
+- Account balances and delegation records (in-memory store).
+- Policy evaluation rules (simple checks).
+- Transfer commit (local balance update).
+
 ## Tool response example
 
 `check_transfer_eligibility` returns an eligibility object even when ineligible.
@@ -60,7 +93,12 @@ pytest
       "requested_amount": "1500",
       "delegated_limit": "1000",
       "checks_failed": ["amount_limit"],
-      "checks_passed": ["delegation_active", "token_class", "from_account_scope", "sufficient_balance"]
+      "checks_passed": [
+        "delegation_active",
+        "token_class",
+        "from_account_scope",
+        "sufficient_balance"
+      ]
     }
   }
 }
@@ -70,6 +108,10 @@ pytest
 
 - This uses the MCP Python SDK. If your SDK entrypoint differs, update `server.py`.
 - All data is in-memory. There are no real credentials or network calls.
+
+## Changelog
+
+See `CHANGELOG.md`.
 
 ## Repo layout
 

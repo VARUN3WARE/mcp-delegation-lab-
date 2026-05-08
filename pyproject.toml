@@ -8,18 +8,13 @@ version = "0.1.0"
 description = "MCP proof-of-concept for delegation-scoped transfers"
 readme = "README.md"
 requires-python = ">=3.10"
-dependencies = [
-  "mcp",
-  "pydantic>=2.6",
-]
+dependencies = ["mcp", "pydantic>=2.6"]
 
 [project.optional-dependencies]
-dev = [
-  "pytest>=7.4",
-]
+dev = ["pytest>=7.4"]
 
 [tool.setuptools]
-package-dir = {"" = "src"}
+package-dir = { "" = "src" }
 
 [tool.setuptools.packages.find]
 where = ["src"]

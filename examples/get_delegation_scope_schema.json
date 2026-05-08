@@ -1,0 +1,55 @@
+{
+  "tool": "get_delegation_scope",
+  "input_schema": {
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "type": "object",
+    "required": ["delegation_id"],
+    "properties": {
+      "delegation_id": {
+        "type": "string",
+        "minLength": 3
+      }
+    },
+    "additionalProperties": false
+  },
+  "output_schema": {
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "type": "object",
+    "required": ["ok"],
+    "properties": {
+      "ok": {"type": "boolean"},
+      "audit_id": {"type": "string"},
+      "data": {
+        "type": "object",
+        "required": [
+          "delegation_id",
+          "delegatee",
+          "allowed_tokens",
+          "max_amount",
+          "expires_at",
+          "policy_tags"
+        ],
+        "properties": {
+          "delegation_id": {"type": "string"},
+          "delegatee": {"type": "string"},
+          "allowed_tokens": {"type": "array", "items": {"type": "string"}},
+          "max_amount": {"type": "string"},
+          "expires_at": {"type": "string"},
+          "policy_tags": {"type": "array", "items": {"type": "string"}}
+        },
+        "additionalProperties": false
+      },
+      "error": {
+        "type": "object",
+        "required": ["code", "message"],
+        "properties": {
+          "code": {"type": "string"},
+          "message": {"type": "string"},
+          "detail": {"type": "object"}
+        },
+        "additionalProperties": true
+      }
+    },
+    "additionalProperties": false
+  }
+}

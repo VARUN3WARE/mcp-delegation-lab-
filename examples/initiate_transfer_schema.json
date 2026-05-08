@@ -1,0 +1,96 @@
+{
+  "tool": "initiate_transfer",
+  "input_schema": {
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "type": "object",
+    "required": [
+      "delegation_id",
+      "from_account",
+      "to_account",
+      "token_class",
+      "amount"
+    ],
+    "properties": {
+      "delegation_id": {"type": "string"},
+      "from_account": {"type": "string"},
+      "to_account": {"type": "string"},
+      "token_class": {"type": "string"},
+      "amount": {"type": "string"},
+      "client_reference": {"type": "string"}
+    },
+    "additionalProperties": false
+  },
+  "output_schema": {
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "type": "object",
+    "required": ["ok"],
+    "properties": {
+      "ok": {"type": "boolean"},
+      "audit_id": {"type": "string"},
+      "data": {
+        "type": "object",
+        "required": [
+          "transfer_id",
+          "status",
+          "executed_at",
+          "from_account",
+          "to_account",
+          "token_class",
+          "amount",
+          "audit_id",
+          "policy_result"
+        ],
+        "properties": {
+          "transfer_id": {"type": "string"},
+          "status": {"type": "string"},
+          "executed_at": {"type": "string"},
+          "from_account": {"type": "string"},
+          "to_account": {"type": "string"},
+          "token_class": {"type": "string"},
+          "amount": {"type": "string"},
+          "audit_id": {"type": "string"},
+          "policy_result": {
+            "type": "object",
+            "required": ["eligible", "detail"],
+            "properties": {
+              "eligible": {"type": "boolean"},
+              "code": {"type": "string"},
+              "message": {"type": "string"},
+              "detail": {
+                "type": "object",
+                "required": [
+                  "token_class",
+                  "requested_amount",
+                  "delegated_limit",
+                  "checks_failed",
+                  "checks_passed"
+                ],
+                "properties": {
+                  "token_class": {"type": "string"},
+                  "requested_amount": {"type": "string"},
+                  "delegated_limit": {"type": "string"},
+                  "checks_failed": {"type": "array", "items": {"type": "string"}},
+                  "checks_passed": {"type": "array", "items": {"type": "string"}}
+                },
+                "additionalProperties": false
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "additionalProperties": false
+      },
+      "error": {
+        "type": "object",
+        "required": ["code", "message"],
+        "properties": {
+          "code": {"type": "string"},
+          "message": {"type": "string"},
+          "detail": {"type": "object"}
+        },
+        "additionalProperties": true
+      }
+    },
+    "additionalProperties": false
+  }
+}
