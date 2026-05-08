@@ -1,0 +1,7 @@
+{
+  "delegation_id": "del_001",
+  "from_account": "acct_001",
+  "to_account": "acct_002",
+  "token_class": "INR_STABLE",
+  "amount": "500"
+}

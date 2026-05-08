@@ -1,0 +1,99 @@
+Metadata-Version: 2.4
+Name: mcp-delegation-lab
+Version: 0.1.0
+Summary: MCP proof-of-concept for delegation-scoped transfers
+Requires-Python: >=3.10
+Description-Content-Type: text/markdown
+Requires-Dist: mcp
+Requires-Dist: pydantic>=2.6
+Provides-Extra: dev
+Requires-Dist: pytest>=7.4; extra == "dev"
+
+# mcp-delegation-lab
+
+A small MCP proof-of-concept that demonstrates delegation-scoped transfer tooling for a mock UNITS-like environment.
+
+This is intentionally minimal: it focuses on scope validation, pre-flight checks, structured tool responses, and audit logs.
+
+## What it includes
+
+- `get_delegation_scope`
+- `check_transfer_eligibility`
+- `initiate_transfer`
+- structured results with error codes
+- mock data store and policy engine
+- tests and example requests
+
+## Quickstart
+
+Option A (uv):
+
+```bash
+uv venv
+source .venv/bin/activate
+uv sync --extra dev
+```
+
+Option B (pip):
+
+```bash
+python -m venv .venv
+source .venv/bin/activate
+pip install -e ".[dev]"
+```
+
+Run the MCP server (stdio):
+
+```bash
+python -m mcp_delegation_lab.server
+```
+
+Run tests:
+
+```bash
+pytest
+```
+
+## Tool response example
+
+`check_transfer_eligibility` returns an eligibility object even when ineligible.
+
+```json
+{
+  "ok": true,
+  "audit_id": "b3f8d96b-0bcf-4c2d-bd7f-03f8f3cf6ab0",
+  "data": {
+    "eligible": false,
+    "code": "SCOPE_EXCEEDED",
+    "message": "Requested amount exceeds delegated limit.",
+    "detail": {
+      "token_class": "INR_STABLE",
+      "requested_amount": "1500",
+      "delegated_limit": "1000",
+      "checks_failed": ["amount_limit"],
+      "checks_passed": ["delegation_active", "token_class", "from_account_scope", "sufficient_balance"]
+    }
+  }
+}
+```
+
+## Notes
+
+- This uses the MCP Python SDK. If your SDK entrypoint differs, update `server.py`.
+- All data is in-memory. There are no real credentials or network calls.
+
+## Repo layout
+
+```
+src/mcp_delegation_lab/
+  server.py
+  tools.py
+  handlers.py
+  policy.py
+  store.py
+  models.py
+  errors.py
+  audit.py
+tests/
+examples/
+```
